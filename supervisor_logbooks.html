@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supervisor Logbooks</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800">
+  <div class="flex min-h-screen">
+    <aside class="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between">
+      <div>
+        <div class="h-16 flex items-center justify-center bg-slate-950 border-b border-slate-800"><span class="text-xl font-bold text-white"><i class="fa-solid fa-user-shield text-indigo-400 mr-2"></i>SupervisorPortal</span></div>
+        <nav class="mt-6 px-4 space-y-2">
+          <a href="supervisor_dashboard.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white"><i class="fa-solid fa-chart-pie w-5 text-center"></i><span>Dashboard</span></a>
+          <a href="supervisor_logbooks.html?filter=pending" id="pending-link" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white"><i class="fa-solid fa-clock-rotate-left w-5 text-center text-amber-400"></i><span>Pending Logbooks</span></a>
+          <a href="supervisor_logbooks.html?filter=all" id="all-link" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white"><i class="fa-solid fa-book w-5 text-center"></i><span>All Logbooks</span></a>
+          <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white"><i class="fa-solid fa-chart-line w-5 text-center"></i><span>Reports</span></a>
+        </nav>
+      </div>
+      <div class="p-4 border-t border-slate-800"><a id="logoutBtn" href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-rose-400 hover:bg-rose-950/30"><i class="fa-solid fa-right-from-bracket w-5 text-center"></i><span>Logout</span></a></div>
+    </aside>
+    <main class="flex-1 p-6 overflow-x-auto">
+      <div class="flex items-center justify-between mb-6"><div><h1 id="title" class="text-2xl font-bold">Logbooks</h1><p id="subtitle" class="text-gray-500 mt-1"></p></div><a href="supervisor_dashboard.html" class="text-sm font-medium text-indigo-600">Back to dashboard</a></div>
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-gray-50 text-xs uppercase text-gray-500"><tr><th class="px-6 py-4">Student</th><th class="px-6 py-4">Date</th><th class="px-6 py-4">Activities</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Action</th></tr></thead><tbody id="logbook-list" class="divide-y divide-gray-100 text-sm"><tr><td class="px-6 py-4" colspan="5">Loading logbooks…</td></tr></tbody></table></div>
+      </div>
+    </main>
+  </div>
+  <script type="module">
+    import { getCurrentUser, getPendingLogbooks, fetchRecentLogbooks, logoutUser } from './logbook_service.js';
+    const user = await getCurrentUser();
+    if (!user || user.role !== 'supervisor') {
+      window.location.replace(!user ? 'index.html' : user.role === 'admin' ? 'admin_dashboard.html' : 'student_dashboard.html');
+      throw new Error('Only supervisors can access supervisor logbooks.');
+    }
+    const filter = new URLSearchParams(window.location.search).get('filter') === 'all' ? 'all' : 'pending';
+    const title = filter === 'all' ? 'All Logbooks' : 'Pending Logbooks';
+    document.title = title;
+    document.getElementById('title').textContent = title;
+    document.getElementById('subtitle').textContent = filter === 'all' ? 'All logbooks available for review.' : 'Logbooks awaiting your review.';
+    document.getElementById(`${filter}-link`).classList.add('bg-indigo-600', 'text-white');
+    document.getElementById('logoutBtn').addEventListener('click', async (event) => { event.preventDefault(); await logoutUser(); window.location.href = 'index.html'; });
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    const list = document.getElementById('logbook-list');
+    try {
+      const entries = filter === 'all' ? await fetchRecentLogbooks(100) : await getPendingLogbooks();
+      list.innerHTML = entries.length ? entries.map((entry) => `<tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium">${escapeHtml(entry.studentName)}</td><td class="px-6 py-4">${escapeHtml(entry.date)}</td><td class="px-6 py-4 max-w-xs truncate">${escapeHtml(entry.activities)}</td><td class="px-6 py-4"><span class="rounded-full px-2.5 py-1 text-xs font-medium ${entry.status === 'Approved' ? 'bg-green-100 text-green-800' : entry.status === 'Rejected' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'}">${escapeHtml(entry.status)}</span></td><td class="px-6 py-4 text-right"><a class="text-indigo-600 font-medium" href="review.html?id=${encodeURIComponent(entry.id)}">Review</a></td></tr>`).join('') : '<tr><td class="px-6 py-6 text-gray-500" colspan="5">No logbooks found.</td></tr>';
+    } catch (error) {
+      console.error(error);
+      list.innerHTML = '<tr><td class="px-6 py-6 text-red-600" colspan="5">Unable to load logbooks. Please try again.</td></tr>';
+    }
+  </script>
+</body>
+</html>

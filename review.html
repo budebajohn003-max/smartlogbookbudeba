@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review & Approval Logbook</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col justify-between font-sans antialiased text-gray-900">
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 md:p-8 flex-grow">
+        
+        <!-- Header -->
+        <header class="border-b border-gray-200 pb-4 mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Review & Approval Page</h1>
+            <p class="text-sm text-gray-500 mt-1">Please review the student's logbook entry below before making a decision.</p>
+        </header>
+
+        <!-- Review Logbook Card -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-700">Logbook Entry Details</h2>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Meta Grid: Student, Date, Location -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Student</label>
+                        <p id="entry-student" class="text-sm font-medium text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100">Loading...</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Date</label>
+                        <p id="entry-date" class="text-sm font-medium text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100">Loading...</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Location</label>
+                        <p id="entry-location" class="text-sm font-medium text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100">Loading...</p>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100" />
+
+                <!-- Activities -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Activities Conducted</label>
+                    <div id="entry-activities" class="text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-150 leading-relaxed">Loading...</div>
+                </div>
+
+                <!-- Problem & Solution Split Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-red-500 mb-1">Problem Encountered</label>
+                        <div id="entry-problem" class="text-sm text-gray-700 bg-red-50/50 p-4 rounded-lg border border-red-100 min-h-[100px]">—</div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-green-600 mb-1">Applied Solution</label>
+                        <div id="entry-solution" class="text-sm text-gray-700 bg-green-50/50 p-4 rounded-lg border border-green-100 min-h-[100px]">—</div>
+                    </div>
+                </div>
+
+                <!-- Photo Section -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Uploaded Photo / Evidence</label>
+                    <div id="entry-photo" class="border-2 border-dashed border-gray-200 rounded-xl p-4 flex justify-center items-center bg-gray-50 max-w-md">
+                        <!-- Placeholder graphic representing the photo -->
+                        <div class="text-center py-6 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H4a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="text-xs block font-medium">[logbook_evidence_photo.jpg]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100" />
+
+                <!-- Comment (Input field for the reviewer) -->
+                <div>
+                    <label for="reviewer-comment" class="block text-sm font-semibold text-gray-700 mb-2">Reviewer Feedback & Comments</label>
+                    <textarea 
+                        id="reviewer-comment" 
+                        rows="3" 
+                        class="w-full text-sm text-gray-800 placeholder-gray-400 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                        placeholder="Add internal notes, correction requirements, or feedback for the student here..."></textarea>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sticky Bottom Action Footer -->
+    <footer class="bg-white border-t border-gray-200 shadow-lg sticky bottom-0 left-0 right-0 w-full z-10">
+        <div class="max-w-4xl mx-auto px-4 py-4 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+            
+            <!-- Left Side: Back button -->
+            <button id="back-btn" class="w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors order-3 sm:order-1">
+                BACK
+            </button>
+            
+            <!-- Right Side: Reject and Approve Actions -->
+            <div class="w-full sm:w-auto flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
+                <button id="reject-btn" class="w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                    REJECT
+                </button>
+                <button id="approve-btn" class="w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors">
+                    APPROVE
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+
+<script type="module" src="./review.js"></script>
+</body>
+</html>

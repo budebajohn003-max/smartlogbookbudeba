@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
+            <div>
+                <!-- Brand/Logo -->
+                <div class="h-16 flex items-center px-6 border-b border-slate-800">
+                    <i data-lucide="shield" class="text-indigo-400 mr-2 w-6 h-6"></i>
+                    <span class="text-lg font-bold text-white tracking-wider">AdminPortal</span>
+                </div>
+                
+                <!-- Navigation Items -->
+                <nav class="p-4 space-y-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white">
+                        <i data-lucide="layout-dashboard" class="mr-3 w-5 h-5"></i> Dashboard
+                    </button>
+                    <button onclick="switchTab('users')" id="nav-users" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="users" class="mr-3 w-5 h-5"></i> Users
+                    </button>
+                    <button onclick="switchTab('students')" id="nav-students" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="graduation-cap" class="mr-3 w-5 h-5"></i> Students
+                    </button>
+                    <button onclick="switchTab('supervisor')" id="nav-supervisor" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="user-check" class="mr-3 w-5 h-5"></i> Supervisor
+                    </button>
+                    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="bar-chart-3" class="mr-3 w-5 h-5"></i> Reports
+                    </button>
+                    <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="settings" class="mr-3 w-5 h-5"></i> Settings
+                    </button>
+                    <button onclick="switchTab('backup')" id="nav-backup" class="nav-btn w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-850 hover:text-white text-slate-400">
+                        <i data-lucide="database" class="mr-3 w-5 h-5"></i> Backup
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Bottom Logout Item -->
+            <div class="p-4 border-t border-slate-800">
+                <button onclick="handleLogout()" class="w-full flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-rose-400 hover:bg-rose-950/30 hover:text-rose-350 transition-colors cursor-pointer">
+                    <i data-lucide="log-out" class="mr-3 w-5 h-5"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            
+            <!-- TOP NAVBAR -->
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0">
+                <div class="flex items-center">
+                    <h1 id="page-title" class="text-xl font-semibold text-slate-800">Dashboard</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-slate-500 hover:text-slate-700 relative p-1">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-600 rounded-full"></span>
+                    </button>
+                    <div class="h-8 w-px bg-slate-200"></div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">AD</div>
+                        <span class="text-sm font-medium text-slate-700 hidden sm:inline-block">Admin User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- DYNAMIC MAIN CONTENT PANELS -->
+            <main class="flex-1 overflow-y-auto p-6">
+                
+                <!-- DASHBOARD TAB -->
+                <div id="panel-dashboard" class="tab-panel space-y-6">
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Total Users</p>
+                                <h3 class="text-2xl font-bold mt-1">1,248</h3>
+                            </div>
+                            <div class="p-3 bg-indigo-50 rounded-lg text-indigo-600"><i data-lucide="users"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Active Students</p>
+                                <h3 class="text-2xl font-bold mt-1">842</h3>
+                            </div>
+                            <div class="p-3 bg-emerald-50 rounded-lg text-emerald-600"><i data-lucide="graduation-cap"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Supervisors</p>
+                                <h3 class="text-2xl font-bold mt-1 font-semibold">56</h3>
+                            </div>
+                            <div class="p-3 bg-amber-50 rounded-lg text-amber-600"><i data-lucide="user-check"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Reports Ready</p>
+                                <h3 class="text-2xl font-bold mt-1">12</h3>
+                            </div>
+                            <div class="p-3 bg-rose-50 rounded-lg text-rose-600"><i data-lucide="file-text"></i></div>
+                        </div>
+                    </div>
+                    <!-- Mock Area -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs h-64 flex items-center justify-center text-slate-400 border-dashed">
+                        [ Main Overview Analytics Chart Placeholder ]
+                    </div>
+                </div>
+
+                <!-- USERS TAB -->
+                <div id="panel-users" class="tab-panel hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-medium">User Directory</h2>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">Add User</button>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-xs uppercase tracking-wider">
+                                    <th class="p-4 font-medium">Name</th>
+                                    <th class="p-4 font-medium">Role</th>
+                                    <th class="p-4 font-medium">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                <tr>
+                                    <td class="p-4 font-medium">Sarah Jenkins</td>
+                                    <td class="p-4 text-slate-500">Administrator</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Michael Chang</td>
+                                    <td class="p-4 text-slate-500">Staff</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- STUDENTS TAB -->
+                <div id="panel-students" class="tab-panel hidden">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <h2 class="text-lg font-medium mb-4">Student Enrollment & Records</h2>
+                        <p class="text-slate-500 text-sm">Manage student profiles, academic courses, tracks, and program enrollment allocations here.</p>
+                    </div>
+                </div>
+
+                <!-- SUPERVISOR TAB -->
+                <div id="panel-supervisor" class="tab-panel hidden">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <h2 class="text-lg font-medium mb-4">Supervisor Allocations</h2>
+                        <p class="text-slate-500 text-sm">Assign supervisors to student cohorts, review management permissions, and audit supervisor evaluations.</p>
+                    </div>
+                </div>
+
+                <!-- REPORTS TAB -->
+                <div id="panel-reports" class="tab-panel hidden space-y-4">
+                    <h2 class="text-lg font-medium">Export Performance Reports</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium text-sm">Quarterly Enrollment Summary</h4>
+                                <p class="text-xs text-slate-400">Generated on July 10, 2026</p>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center"><i data-lucide="download" class="w-4 h-4 mr-1"></i> PDF</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium text-sm">Supervisor Evaluation Audits</h4>
+                                <p class="text-xs text-slate-400">Generated on July 01, 2026</p>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center"><i data-lucide="download" class="w-4 h-4 mr-1"></i> CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SETTINGS TAB -->
+                <div id="panel-settings" class="tab-panel hidden">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs max-w-xl">
+                        <h2 class="text-lg font-medium mb-4">System Settings</h2>
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <label class="block font-medium mb-1 text-slate-700">Application Title</label>
+                                <input type="text" value="Admin Management Portal" class="w-full border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-1 text-slate-700">System Notification Email</label>
+                                <input type="email" value="system@adminportal.com" class="w-full border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors">Save Configurations</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BACKUP TAB -->
+                <div id="panel-backup" class="tab-panel hidden">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs max-w-xl text-sm">
+                        <h2 class="text-lg font-medium mb-2">Database Backup & Recovery</h2>
+                        <p class="text-slate-500 mb-6">Create structural snapshots of your operational database or retrieve previous database system states.</p>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between mb-4">
+                            <div>
+                                <p class="font-medium">Automatic Backups</p>
+                                <p class="text-xs text-slate-400">Every Sunday at 02:00 AM</p>
+                            </div>
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-semibold rounded text-xs">Enabled</span>
+                        </div>
+                        <button class="bg-slate-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-900 flex items-center justify-center transition-colors">
+                            <i data-lucide="refresh-cw" class="w-4 h-4 mr-2 animate-spin-hover"></i> Trigger Full System Backup Now
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- UI INTERACTION SCRIPT -->
+    <script type="module">
+        import { getCurrentUser, logoutUser } from './logbook_service.js';
+
+        const currentUser = await getCurrentUser();
+        if (!currentUser || currentUser.role !== 'admin') {
+            window.location.replace(
+                !currentUser ? 'index.html' : currentUser.role === 'supervisor' ? 'supervisor_dashboard.html' : 'student_dashboard.html'
+            );
+            throw new Error('Only administrators can access the administrator dashboard.');
+        }
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Single-page application tab switching logic
+        function switchTab(tabId) {
+            // Hide all tab content panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            
+            // Remove active styles from all navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('hover:bg-slate-850', 'hover:text-white', 'text-slate-400');
+            });
+
+            // Show the targeted content panel
+            document.getElementById(`panel-${tabId}`).classList.remove('hidden');
+
+            // Apply active styles to clicked sidebar navigation element
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            activeBtn.classList.remove('hover:bg-slate-850', 'hover:text-white', 'text-slate-400');
+            activeBtn.classList.add('bg-indigo-600', 'text-white');
+
+            // Set Header Page Title Context dynamically
+            const cleanTitle = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+            document.getElementById('page-title').innerText = cleanTitle;
+        }
+
+        async function handleLogout() {
+            if (confirm('Are you sure you want to log out of the system admin environment?')) {
+                await logoutUser();
+                window.location.href = 'index.html';
+            }
+        }
+
+        window.switchTab = switchTab;
+        window.handleLogout = handleLogout;
+    </script>
+</body>
+</html>

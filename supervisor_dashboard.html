@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervisor Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans antialiased flex h-screen overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
+        <div>
+            <!-- Branding / Logo -->
+            <div class="h-16 flex items-center justify-center bg-slate-950 border-b border-slate-800">
+                <span class="text-xl font-bold text-white tracking-wide">
+                    <i class="fa-solid fa-user-shield text-indigo-400 mr-2"></i>SupervisorPortal
+                </span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="mt-6 px-4 space-y-2">
+                <a href="supervisor_dashboard.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-indigo-600 text-white font-medium transition-colors">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="supervisor_logbooks.html?filter=pending" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+                    <span class="flex-1">Pending Logbook</span>
+                    <span class="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full font-bold">5</span>
+                </a>
+
+                <a href="supervisor_logbooks.html?filter=all" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-solid fa-book w-5 text-center"></i>
+                    <span>All Logbooks</span>
+                </a>
+
+                <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                    <span>Reports</span>
+                </a>
+
+                <a href="#profile" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-solid fa-user-gear w-5 text-center"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Logout Action (Bottom of Sidebar) -->
+        <div class="p-4 border-t border-slate-800">
+            <a id="logoutBtn" href="#logout" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-rose-400 hover:bg-rose-950/30 hover:text-rose-300 transition-colors font-medium">
+                <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- HEADER -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10 shadow-xs">
+            <div class="flex items-center">
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-600 focus:outline-none mr-4">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800">Welcome, Supervisor</h1>
+            </div>
+
+            <!-- User Context Menu -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-500 hover:text-gray-700 relative">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-rose-500 rounded-full"></span>
+                </button>
+                <div class="flex items-center space-x-3 border-l pl-4 border-gray-200">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-medium text-gray-700">Dr. Sarah Jenkins</p>
+                        <p class="text-xs text-gray-500">Lead Supervisor</p>
+                    </div>
+                    <img class="h-9 w-9 rounded-full bg-gray-300 object-cover border border-gray-200" 
+                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" 
+                         alt="Supervisor Avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN SCROLLABLE WRAPPER -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+            
+            <!-- METRICS COMPONENT (Quick Insights) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Approvals</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-1">5</p>
+                    </div>
+                    <div class="p-3 bg-amber-50 text-amber-500 rounded-lg">
+                        <i class="fa-solid fa-hourglass-half text-2xl"></i>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Logbooks</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-1">142</p>
+                    </div>
+                    <div class="p-3 bg-indigo-50 text-indigo-500 rounded-lg">
+                        <i class="fa-solid fa-book-open text-2xl"></i>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Active Students</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-1">28</p>
+                    </div>
+                    <div class="p-3 bg-emerald-50 text-emerald-500 rounded-lg">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Compliance Rate</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-1">94%</p>
+                    </div>
+                    <div class="p-3 bg-sky-50 text-sky-500 rounded-lg">
+                        <i class="fa-solid fa-square-check text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC TABLE COMPONENT (Showing Pending Logbooks preview) -->
+            <div class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-gray-800">Recent Pending Logbooks</h2>
+                    <a href="supervisor_logbooks.html?filter=pending" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">View All</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 text-xs font-semibold uppercase text-gray-500 border-b border-gray-200">
+                                <th class="px-6 py-3">Student / User</th>
+                                <th class="px-6 py-3">Week / Date</th>
+                                <th class="px-6 py-3">Logged Hours</th>
+                                <th class="px-6 py-3">Status</th>
+                                <th class="px-6 py-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                            <!-- Row 1 -->
+                            <tr class="hover:bg-gray-50/70 transition-colors">
+                                <td class="px-6 py-4 font-medium text-gray-900">Alex Rivera</td>
+                                <td class="px-6 py-4">Week 12 (Jul 06 - Jul 10)</td>
+                                <td class="px-6 py-4">40 hrs</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                        Pending Review
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right space-x-2">
+                                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-md font-medium shadow-xs transition-colors">Review</button>
+                                </td>
+                            </tr>
+                            <!-- Row 2 -->
+                            <tr class="hover:bg-gray-50/70 transition-colors">
+                                <td class="px-6 py-4 font-medium text-gray-900">Sophia Chen</td>
+                                <td class="px-6 py-4">Week 12 (Jul 05 - Jul 09)</td>
+                                <td class="px-6 py-4">35 hrs</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                        Pending Review
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right space-x-2">
+                                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-md font-medium shadow-xs transition-colors">Review</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="./dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Container Card */
+.login-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+}
+
+/* Login logo */
+.login-logo-container {
+    text-align: center;
+    margin: 0 0 0.75rem;
+}
+
+.login-logo {
+    display: inline-block;
+    width: 160px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Typography */
+h4 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666666;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+/* Form Groups */
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #444444;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #4a90e2;
+}
+
+/* Form Actions (Remember Me) */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.remember-me input {
+    margin-right: 0.5rem;
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-btn:hover {
+    background-color: #357abd;
+}
+
+/* Register Footer Link */
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.register-link a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+/* Usanidi wa Awali (Reset) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* === SIDEBAR STYLES === */
+.sidebar {
+    width: 260px;
+    background-color: #1e293b;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    padding: 10px 0 30px 0;
+    margin: 0 25.6%;
+}
+
+.logo h2 i {
+    color: #38bdf8;
+    margin-right: 8px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-item i {
+    margin-right: 12px;
+    width: 20px;
+    font-size: 18px;
+}
+
+/* Unapoweka Kipanya au Ikiwa Active */
+.nav-item:hover, .nav-item.active {
+    background-color: #334155;
+    color: #fff;
+}
+
+.nav-item.active i {
+    color: #38bdf8;
+}
+
+/* Logout Style ya Kipekee */
+.nav-item.logout {
+    color: #f87171;
+    border-top: 1px solid #334155;
+    border-radius: 0;
+    padding-top: 20px;
+}
+
+.nav-item.logout:hover {
+    background-color: #7f1d1d;
+    color: #fff;
+    border-radius: 8px;
+}
+
+/* === MAIN CONTENT STYLES === */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Top Header */
+.top-header {
+    background-color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f1f5f9;
+    padding: 8px 16px;
+    border-radius: 20px;
+    width: 300px;
+}
+
+.search-bar i {
+    color: #94a3b8;
+    margin-right: 8px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #475569;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #38bdf8;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Content Body */
+.content-body {
+    padding: 30px;
+}
+
+.content-body h1 {
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.content-body p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* Kadi za Mfano */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1-fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card i {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 24px;
+    color: #1e293b;
+}
+
+.card p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Rangi za Ikoni */
+.text-blue { color: #3b82f6; }
+.text-green { color: #10b981; }
+.text-orange { color: #f59e0b; }
+
+/* Responsive kwa Ajili ya Simu */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    .nav-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .nav-item {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unda Akaunti ya Mwanafunzi</title>
+    
+    <!-- CSS Imejumuishwa Humu Humu (Muonekano) -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input {
+            margin-bottom: 15px;
+        }
+        .input label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        .input input, .input select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        p {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h2>Unda Akaunti ya Mwanafunzi</h2>
+        
+        <form id="registerForm">
+            <div class="input">
+                <label>Jina Kamili</label>
+                <input type="text" name="fullname" required>
+            </div>
+
+            <div class="input">
+                <label>Namba ya Usajili (Reg No)</label>
+                <input type="text" name="regno" required>
+            </div>
+
+            <div class="input">
+                <label>Barua Pepe (Email)</label>
+                <input type="email" name="email" required>
+            </div>
+
+           
+
+           
+            <div class="input">
+                <label>Nenosiri (Password)</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <div class="input">
+                <label>Thibitisha Nenosiri</label>
+                <!-- Kimeongezwa 'name' attribute hapa chini ili data isafiri kwenda kwenye server -->
+                <input type="password" name="confirm_password" id="confirm" required>
+            </div>
+
+            <button type="submit" class="btn">Unda Akaunti</button>
+
+            <p>
+                Tayari unayo akaunti? 
+                <a href="index.html">Ingia (Login)</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+    <script type="module" src="./auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Logbook </title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .logbook-container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 650px;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: border-color 0.2s;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input[readonly] {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 99px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button[type="reset"] {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #cbd5e1;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .preview-container {
+            margin-top: 0.5rem;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 6px;
+            display: none;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logbook-container">
+    <h2>Add New Logbook </h2>
+    
+    <form id="logbookForm">
+        <!-- Date Field -->
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <!-- Auto Location Field -->
+        <div class="form-group">
+            <label for="location">Location (Auto-detected)</label>
+            <input type="text" id="location" name="location" readonly placeholder="Fetching location...">
+        </div>
+
+        <!-- Activities Field -->
+        <div class="form-group">
+            <label for="activities">Activities</label>
+            <textarea id="activities" name="activities" placeholder="Describe the activities performed today..." required></textarea>
+        </div>
+
+        <!-- Problem Found Field -->
+        <div class="form-group">
+            <label for="problem">Problem Found</label>
+            <textarea id="problem" name="problem" placeholder="Describe any issues or obstacles encountered..."></textarea>
+        </div>
+
+        <!-- Solution Field -->
+        <div class="form-group">
+            <label for="solution">Solution</label>
+            <textarea id="solution" name="solution" placeholder="Describe how the problem was resolved..."></textarea>
+        </div>
+
+        <!-- Photo Upload Field -->
+        <div class="form-group">
+            <label for="photo">Upload Photo</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            <div class="preview-container">
+                <img id="imagePreview" alt="Image preview">
+            </div>
+        </div>
+
+        <!-- Submit and Reset Buttons -->
+        <div class="button-group">
+            <button type="reset" id="resetBtn">RESET</button>
+            <button type="submit">SUBMIT</button>
+        </div>
+    </form>
+</div>
+
+<script type="module">
+    import { createLogbookEntry, getCurrentUser } from './logbook_service.js';
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+        window.location.href = 'index.html';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const dateInput = document.getElementById('date');
+        const locationInput = document.getElementById('location');
+        const photoInput = document.getElementById('photo');
+        const imagePreview = document.getElementById('imagePreview');
+        const form = document.getElementById('logbookForm');
+
+        // 1. Auto-fill Today's Date
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+
+        // 2. Auto-detect Location using Browser Geolocation API
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude.toFixed(5);
+                    const lon = position.coords.longitude.toFixed(5);
+                    locationInput.value = `Lat: ${lat}, Lon: ${lon}`;
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    locationInput.value = "Location access denied/unavailable";
+                }
+            );
+        } else {
+            locationInput.value = "Geolocation not supported by browser";
+        }
+
+        // 3. Optional: Image Preview Feature
+        photoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        // 4. Handle Reset Button (Restores default date/location alongside clearing fields)
+        form.addEventListener('reset', () => {
+            // Short timeout to let the default form reset finish first
+            setTimeout(() => {
+                dateInput.value = today;
+                imagePreview.style.display = 'none';
+                // Trigger location fetch again on reset
+                locationInput.value = "Fetching location...";
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            locationInput.value = `Lat: ${position.coords.latitude.toFixed(5)}, Lon: ${position.coords.longitude.toFixed(5)}`;
+                        },
+                        () => { locationInput.value = "Location access denied"; }
+                    );
+                }
+            }, 10);
+        });
+
+        // 5. Handle Form Submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const entry = {
+                date: dateInput.value,
+                location: locationInput.value,
+                activities: document.getElementById('activities').value,
+                problem: document.getElementById('problem').value,
+                solution: document.getElementById('solution').value,
+            };
+
+            try {
+                const { data, error } = await createLogbookEntry(entry, photoInput.files[0] || null);
+                if (error) {
+                    throw error;
+                }
+
+                alert('Logbook entry submitted successfully.');
+                form.reset();
+                dateInput.value = today;
+                imagePreview.style.display = 'none';
+                locationInput.value = 'Fetching location...';
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        locationInput.value = `Lat: ${position.coords.latitude.toFixed(5)}, Lon: ${position.coords.longitude.toFixed(5)}`;
+                    });
+                }
+            } catch (error) {
+                console.error('Error submitting logbook entry:', error);
+                alert('Unable to submit logbook entry. Check console for details.');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

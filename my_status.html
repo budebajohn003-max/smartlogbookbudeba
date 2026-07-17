@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Logbook Status</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .status-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 20px 0; }
+    .status-card, .status-panel { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .status-card strong { font-size: 1.8rem; display: block; }
+    .status-table { width: 100%; border-collapse: collapse; }
+    .status-table th, .status-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    .status-badge { border-radius: 999px; padding: 4px 9px; font-size: .85rem; font-weight: 600; }
+    .Pending { background: #fef3c7; color: #92400e; }
+    .Approved { background: #dcfce7; color: #166534; }
+    .Rejected { background: #fee2e2; color: #991b1b; }
+    .empty-status { color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="logo"><h2><i class="fa-solid fa-graduation-cap"></i> Chuo Portal</h2></div>
+      <nav class="nav-menu">
+        <a href="student_dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="my_logbooks.html" class="nav-item"><i class="fa-solid fa-book-open"></i> My Logbook</a>
+        <a href="add_logbook_page.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Add Logbook</a>
+        <a href="my_status.html" class="nav-item active"><i class="fa-solid fa-signal"></i> My Status</a>
+        <a href="reports.html" class="nav-item"><i class="fa-solid fa-file-invoice"></i> Reports</a>
+      </nav>
+      <div class="sidebar-footer"><a href="#" id="logoutBtn" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></div>
+    </aside>
+    <main class="main-content">
+      <header class="top-header"><div><h1>My Logbook Status</h1><p>Track review decisions for your logbook entries.</p></div></header>
+      <section class="content-body">
+        <div id="summary" class="status-summary"></div>
+        <div class="status-panel"><div id="status-list" aria-live="polite">Loading your status…</div></div>
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { getCurrentUser, getMyLogbooks, logoutUser } from './logbook_service.js';
+    const user = await getCurrentUser();
+    if (!user || user.role !== 'student') {
+      window.location.replace(!user ? 'index.html' : user.role === 'admin' ? 'admin_dashboard.html' : 'supervisor_dashboard.html');
+      throw new Error('Only students can access their status.');
+    }
+    document.getElementById('logoutBtn').addEventListener('click', async (event) => { event.preventDefault(); await logoutUser(); window.location.href = 'index.html'; });
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    try {
+      const entries = await getMyLogbooks(user.id);
+      const count = (status) => entries.filter((entry) => entry.status === status).length;
+      document.getElementById('summary').innerHTML = ['Pending', 'Approved', 'Rejected'].map((status) => `<div class="status-card"><span>${status}</span><strong>${count(status)}</strong></div>`).join('');
+      document.getElementById('status-list').innerHTML = entries.length ? `<table class="status-table"><thead><tr><th>Date</th><th>Activities</th><th>Status</th><th>Feedback</th></tr></thead><tbody>${entries.map((entry) => `<tr><td>${escapeHtml(entry.date)}</td><td>${escapeHtml(entry.activities)}</td><td><span class="status-badge ${escapeHtml(entry.status)}">${escapeHtml(entry.status)}</span></td><td>${escapeHtml(entry.reviewer_comment || 'Awaiting reviewer feedback')}</td></tr>`).join('')}</tbody></table>` : '<p class="empty-status">You have no submitted logbooks yet.</p>';
+    } catch (error) {
+      console.error(error);
+      document.getElementById('status-list').textContent = 'Unable to load your status. Please try again.';
+    }
+  </script>
+</body>
+</html>

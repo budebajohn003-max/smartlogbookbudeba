@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Logbooks</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .logbook-list { display: grid; gap: 16px; margin-top: 24px; }
+    .logbook-entry { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .logbook-entry header { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .status { border-radius: 999px; padding: 4px 10px; font-size: .85rem; font-weight: 600; }
+    .Pending { background: #fef3c7; color: #92400e; }
+    .Approved { background: #dcfce7; color: #166534; }
+    .Rejected { background: #fee2e2; color: #991b1b; }
+    .entry-meta { color: #64748b; margin: 10px 0; }
+    .empty-state { padding: 28px; background: #fff; border-radius: 10px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="logo"><h2><i class="fa-solid fa-graduation-cap"></i> Chuo Portal</h2></div>
+      <nav class="nav-menu">
+        <a href="student_dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="my_logbooks.html" class="nav-item active"><i class="fa-solid fa-book-open"></i> My Logbook</a>
+        <a href="add_logbook_page.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Add Logbook</a>
+        <a href="my_status.html" class="nav-item"><i class="fa-solid fa-signal"></i> My Status</a>
+        <a href="reports.html" class="nav-item"><i class="fa-solid fa-file-invoice"></i> Reports</a>
+      </nav>
+      <div class="sidebar-footer"><a href="#" id="logoutBtn" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></div>
+    </aside>
+    <main class="main-content">
+      <header class="top-header"><div><h1>My Logbooks</h1><p>Only your submitted logbook entries appear here.</p></div></header>
+      <section class="content-body"><div id="logbook-list" class="logbook-list" aria-live="polite">Loading your logbooks…</div></section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { getCurrentUser, getMyLogbooks, logoutUser } from './logbook_service.js';
+
+    const user = await getCurrentUser();
+    if (!user || user.role !== 'student') {
+      window.location.replace(!user ? 'index.html' : user.role === 'admin' ? 'admin_dashboard.html' : 'supervisor_dashboard.html');
+      throw new Error('Only students can access their logbook history.');
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async (event) => {
+      event.preventDefault();
+      await logoutUser();
+      window.location.href = 'index.html';
+    });
+
+    const list = document.getElementById('logbook-list');
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[character]);
+    try {
+      const entries = await getMyLogbooks(user.id);
+      if (!entries.length) {
+        list.innerHTML = '<div class="empty-state">You have not submitted a logbook yet. <a href="add_logbook_page.html">Add your first logbook.</a></div>';
+      } else {
+        list.innerHTML = entries.map((entry) => `
+          <article class="logbook-entry">
+            <header><strong>${escapeHtml(entry.date)}</strong><span class="status ${escapeHtml(entry.status)}">${escapeHtml(entry.status)}</span></header>
+            <p class="entry-meta"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(entry.location || 'No location recorded')}</p>
+            <p>${escapeHtml(entry.activities)}</p>
+            ${entry.reviewer_comment ? `<p class="entry-meta"><strong>Reviewer feedback:</strong> ${escapeHtml(entry.reviewer_comment)}</p>` : ''}
+          </article>`).join('');
+      }
+    } catch (error) {
+      console.error(error);
+      list.textContent = 'Unable to load your logbooks. Please try again.';
+    }
+  </script>
+</body>
+</html>

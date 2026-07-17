@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <!-- Tunatumia Font Awesome kwa ajili ya ikoni (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- SIDEBAR (Menyu ya Pembeni) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Chuo Portal</h2>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="student_dashboard.html" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="add_logbook_page.html" class="nav-item"><i class="fa-solid fa-book-open"></i> My Logbook</a>
+                <a href="add_logbook_page.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Add Logbook</a>
+                <a href="student_dashboard.html" class="nav-item"><i class="fa-solid fa-signal"></i> My Status</a>
+                <a href="reports.html" class="nav-item"><i class="fa-solid fa-file-invoice"></i> Reports</a>
+                <a href="review.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT (Eneo la Maudhui) -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Tafuta hapa...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name">Juma Hamisi</span>
+                    <div class="avatar">JH</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Body -->
+            <section class="content-body">
+                <h1>WELCOME TO, STUDENT DASH!</h1>
+                <p>Hapa ni muonekano wa haraka wa maendeleo yako leo.</p>
+
+                <!-- Kadi za Takwimu (Manoo ya Mfano) -->
+                <div class="stats-cards">
+                    <div class="card">
+                        <i class="fa-solid fa-book-bookmark text-blue"></i>
+                        <h3>12</h3>
+                        <p>Logbooks Zilizojazwa</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-check-double text-green"></i>
+                        <h3>Imethibitishwa</h3>
+                        <p>Status ya Logbook</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-clock text-orange"></i>
+                        <h3>85%</h3>
+                        <p>Mahudhurio</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="./dashboard.js"></script>
+</body>
+</html>

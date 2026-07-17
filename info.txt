@@ -1,0 +1,5 @@
+cloudinary_name = slsavbwe
+cloudinary_presents = ml_default
+
+supabase_anon_key = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkeW90Y2ViZGR5c214Zmp2aGp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NTA2ODksImV4cCI6MjA5OTUyNjY4OX0._42PWy8Z1wRe_FaPvbC-X5N9H9RTdPg1kGaZp0js3M4
+supabase_URL = https://fdyotcebddysmxfjvhjy.supabase.co/rest/v1/
