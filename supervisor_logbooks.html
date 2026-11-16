@@ -29,7 +29,7 @@
     </main>
   </div>
   <script type="module">
-    import { getCurrentUser, getPendingLogbooks, fetchRecentLogbooks, logoutUser } from './logbook_service.js';
+    import { getCurrentUser, getPendingLogbooks, fetchRecentLogbooks, logoutUser } from './scripts/logbook_service.js';
     const user = await getCurrentUser();
     if (!user || user.role !== 'supervisor') {
       window.location.replace(!user ? 'index.html' : user.role === 'admin' ? 'admin_dashboard.html' : 'student_dashboard.html');

@@ -203,7 +203,7 @@
 </div>
 
 <script type="module">
-    import { createLogbookEntry, getCurrentUser } from './logbook_service.js';
+    import { createLogbookEntry, getCurrentUser } from './scripts/logbook_service.js';
     const currentUser = await getCurrentUser();
     if (!currentUser || currentUser.role !== 'student') {
         window.location.replace(

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Logbooks</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/style.css">
   <style>
     .logbook-list { display: grid; gap: 16px; margin-top: 24px; }
     .logbook-entry { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
@@ -38,7 +38,7 @@
   </div>
 
   <script type="module">
-    import { getCurrentUser, getMyLogbooks, logoutUser } from './logbook_service.js';
+    import { getCurrentUser, getMyLogbooks, logoutUser } from './scripts/logbook_service.js';
 
     const user = await getCurrentUser();
     if (!user || user.role !== 'student') {

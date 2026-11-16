@@ -229,7 +229,7 @@
 
     <!-- UI INTERACTION SCRIPT -->
     <script type="module">
-        import { getCurrentUser, logoutUser } from './logbook_service.js';
+        import { getCurrentUser, logoutUser } from './scripts/logbook_service.js';
 
         const currentUser = await getCurrentUser();
         if (!currentUser || currentUser.role !== 'admin') {
