@@ -3,14 +3,15 @@ import { loginUser, registerUser, getCurrentUser, logoutUser } from './logbook_s
 const page = window.location.pathname.split('/').pop();
 
 function normalizeRole(role) {
-  return role ? String(role).trim().toLowerCase() : 'student';
+  return role ? String(role).trim().toLowerCase() : '';
 }
 
 function redirectByRole(user) {
   const role = normalizeRole(user?.role);
   if (role === 'admin') window.location.href = 'admin_dashboard.html';
   else if (role === 'supervisor') window.location.href = 'supervisor_dashboard.html';
-  else window.location.href = 'student_dashboard.html';
+  else if (role === 'student') window.location.href = 'student_dashboard.html';
+  else window.location.replace('index.html');
 }
 
 const currentUser = await getCurrentUser();

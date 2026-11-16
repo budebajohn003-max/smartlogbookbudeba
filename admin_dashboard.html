@@ -65,14 +65,13 @@
                     <h1 id="page-title" class="text-xl font-semibold text-slate-800">Dashboard</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="text-slate-500 hover:text-slate-700 relative p-1">
+                    <button disabled title="Notifications are not configured." aria-label="Notifications are not configured" class="text-slate-400 relative p-1 cursor-not-allowed">
                         <i data-lucide="bell" class="w-5 h-5"></i>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-600 rounded-full"></span>
                     </button>
                     <div class="h-8 w-px bg-slate-200"></div>
                     <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">AD</div>
-                        <span class="text-sm font-medium text-slate-700 hidden sm:inline-block">Admin User</span>
+                        <div id="admin-avatar" class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">AD</div>
+                        <span id="admin-name" class="text-sm font-medium text-slate-700 hidden sm:inline-block">Administrator</span>
                     </div>
                 </div>
             </header>
@@ -87,35 +86,34 @@
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Total Users</p>
-                                <h3 class="text-2xl font-bold mt-1">1,248</h3>
+                                <h3 class="text-2xl font-bold mt-1">—</h3>
                             </div>
                             <div class="p-3 bg-indigo-50 rounded-lg text-indigo-600"><i data-lucide="users"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Active Students</p>
-                                <h3 class="text-2xl font-bold mt-1">842</h3>
+                                <h3 class="text-2xl font-bold mt-1">—</h3>
                             </div>
                             <div class="p-3 bg-emerald-50 rounded-lg text-emerald-600"><i data-lucide="graduation-cap"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Supervisors</p>
-                                <h3 class="text-2xl font-bold mt-1 font-semibold">56</h3>
+                                <h3 class="text-2xl font-bold mt-1 font-semibold">—</h3>
                             </div>
                             <div class="p-3 bg-amber-50 rounded-lg text-amber-600"><i data-lucide="user-check"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Reports Ready</p>
-                                <h3 class="text-2xl font-bold mt-1">12</h3>
+                                <h3 class="text-2xl font-bold mt-1">—</h3>
                             </div>
                             <div class="p-3 bg-rose-50 rounded-lg text-rose-600"><i data-lucide="file-text"></i></div>
                         </div>
                     </div>
-                    <!-- Mock Area -->
-                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs h-64 flex items-center justify-center text-slate-400 border-dashed">
-                        [ Main Overview Analytics Chart Placeholder ]
+                    <div role="status" class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-sm text-amber-900">
+                        Live administrator statistics are not connected. Figures are withheld until they can be loaded from authorized database queries.
                     </div>
                 </div>
 
@@ -123,7 +121,7 @@
                 <div id="panel-users" class="tab-panel hidden space-y-4">
                     <div class="flex justify-between items-center">
                         <h2 class="text-lg font-medium">User Directory</h2>
-                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">Add User</button>
+                        <button disabled title="User management is not connected to the backend." class="bg-indigo-600/50 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-not-allowed">Add User</button>
                     </div>
                     <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
                         <table class="w-full text-left border-collapse">
@@ -135,16 +133,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 text-sm">
-                                <tr>
-                                    <td class="p-4 font-medium">Sarah Jenkins</td>
-                                    <td class="p-4 text-slate-500">Administrator</td>
-                                    <td class="p-4"><span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 font-medium">Michael Chang</td>
-                                    <td class="p-4 text-slate-500">Staff</td>
-                                    <td class="p-4"><span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">Active</span></td>
-                                </tr>
+                                <tr><td class="p-4 text-slate-500" colspan="3">User records are unavailable until the administrator data service is configured.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -169,21 +158,8 @@
                 <!-- REPORTS TAB -->
                 <div id="panel-reports" class="tab-panel hidden space-y-4">
                     <h2 class="text-lg font-medium">Export Performance Reports</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <h4 class="font-medium text-sm">Quarterly Enrollment Summary</h4>
-                                <p class="text-xs text-slate-400">Generated on July 10, 2026</p>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center"><i data-lucide="download" class="w-4 h-4 mr-1"></i> PDF</button>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <h4 class="font-medium text-sm">Supervisor Evaluation Audits</h4>
-                                <p class="text-xs text-slate-400">Generated on July 01, 2026</p>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center"><i data-lucide="download" class="w-4 h-4 mr-1"></i> CSV</button>
-                        </div>
+                    <div role="status" class="bg-white p-6 rounded-xl border border-slate-200 text-sm text-slate-600">
+                        Administrative report generation is not connected to live data.
                     </div>
                 </div>
 
@@ -191,17 +167,7 @@
                 <div id="panel-settings" class="tab-panel hidden">
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs max-w-xl">
                         <h2 class="text-lg font-medium mb-4">System Settings</h2>
-                        <div class="space-y-4 text-sm">
-                            <div>
-                                <label class="block font-medium mb-1 text-slate-700">Application Title</label>
-                                <input type="text" value="Admin Management Portal" class="w-full border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-indigo-500">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1 text-slate-700">System Notification Email</label>
-                                <input type="email" value="system@adminportal.com" class="w-full border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-indigo-500">
-                            </div>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors">Save Configurations</button>
-                        </div>
+                        <p role="status" class="text-sm text-slate-600">System settings are not connected to a configuration service.</p>
                     </div>
                 </div>
 
@@ -209,17 +175,7 @@
                 <div id="panel-backup" class="tab-panel hidden">
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs max-w-xl text-sm">
                         <h2 class="text-lg font-medium mb-2">Database Backup & Recovery</h2>
-                        <p class="text-slate-500 mb-6">Create structural snapshots of your operational database or retrieve previous database system states.</p>
-                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between mb-4">
-                            <div>
-                                <p class="font-medium">Automatic Backups</p>
-                                <p class="text-xs text-slate-400">Every Sunday at 02:00 AM</p>
-                            </div>
-                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-semibold rounded text-xs">Enabled</span>
-                        </div>
-                        <button class="bg-slate-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-900 flex items-center justify-center transition-colors">
-                            <i data-lucide="refresh-cw" class="w-4 h-4 mr-2 animate-spin-hover"></i> Trigger Full System Backup Now
-                        </button>
+                        <p role="status" class="text-slate-600">Backup and recovery status is not connected. Manage backups through the configured database provider until an audited administrative workflow is available.</p>
                     </div>
                 </div>
 
@@ -238,6 +194,14 @@
             );
             throw new Error('Only administrators can access the administrator dashboard.');
         }
+
+        document.getElementById('admin-name').textContent = currentUser.fullname;
+        document.getElementById('admin-avatar').textContent = currentUser.fullname
+            .split(' ')
+            .map((part) => part[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
 
         // Initialize Lucide Icons
         lucide.createIcons();

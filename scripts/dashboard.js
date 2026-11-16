@@ -3,7 +3,7 @@ import { getCurrentUser, logoutUser, getMyLogbooks, getPendingLogbooks, fetchLog
 const page = window.location.pathname.split('/').pop();
 
 function normalizeRole(role) {
-  return role ? String(role).trim().toLowerCase() : 'student';
+  return role ? String(role).trim().toLowerCase() : '';
 }
 
 const currentUser = await getCurrentUser();
@@ -13,6 +13,10 @@ if (!currentUser) {
 }
 
 const currentRole = normalizeRole(currentUser.role);
+if (!['student', 'supervisor', 'admin'].includes(currentRole)) {
+  window.location.replace('index.html');
+  throw new Error('The account role could not be verified.');
+}
 const expectedRole = page === 'student_dashboard.html' ? 'student' : page === 'supervisor_dashboard.html' ? 'supervisor' : null;
 if (expectedRole && currentRole !== expectedRole) {
   window.location.replace(
@@ -67,7 +71,14 @@ async function renderSupervisorDashboard() {
   }
   const table = document.querySelector('tbody.divide-y');
   if (table) {
-    table.innerHTML = pendingEntries.slice(0, 5).map((entry) => `<tr class="hover:bg-gray-50/70 transition-colors"><td class="px-6 py-4 font-medium text-gray-900">${entry.studentName}</td><td class="px-6 py-4">${entry.date}</td><td class="px-6 py-4">—</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pending Review</span></td><td class="px-6 py-4 text-right"><a href="review.html?id=${entry.id}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-md font-medium">Review</a></td></tr>`).join('') || '<tr><td class="px-6 py-4" colspan="5">No pending logbooks.</td></tr>';
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    })[character]);
+    table.innerHTML = pendingEntries.slice(0, 5).map((entry) => `<tr class="hover:bg-gray-50/70 transition-colors"><td class="px-6 py-4 font-medium text-gray-900">${escapeHtml(entry.studentName)}</td><td class="px-6 py-4">${escapeHtml(entry.date)}</td><td class="px-6 py-4">—</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pending Review</span></td><td class="px-6 py-4 text-right"><a href="review.html?id=${encodeURIComponent(entry.id)}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-md font-medium">Review</a></td></tr>`).join('') || '<tr><td class="px-6 py-4" colspan="5">No pending logbooks.</td></tr>';
   }
 }
 

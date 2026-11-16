@@ -2,17 +2,19 @@ import { supabase } from './supabase_client.js';
 import { uploadLogbookPhoto } from './cloudinary.js';
 
 function normalizeRole(role) {
-  return role ? String(role).trim().toLowerCase() : 'student';
+  return role ? String(role).trim().toLowerCase() : '';
 }
 
 function profileFromRow(row) {
   if (!row) return null;
+  const role = normalizeRole(row.role);
+  if (!['student', 'supervisor', 'admin'].includes(role)) return null;
   return {
     id: row.id,
-    fullname: row.full_name,
+    fullname: row.full_name || row.email || 'User',
     regno: row.registration_number,
     email: row.email,
-    role: normalizeRole(row.role),
+    role,
   };
 }
 
@@ -67,22 +69,15 @@ export async function registerUser({ fullname, regno, email, password }) {
 }
 
 export async function loginUser({ email, password }) {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email: email.trim().toLowerCase(),
     password,
   });
   if (error) return { data: null, error: error.message };
   const profile = await getCurrentUser();
   if (profile) return { data: profile, error: null };
-  return {
-    data: {
-      id: data.user.id,
-      fullname: data.user.email,
-      email: data.user.email,
-      role: 'student',
-    },
-    error: null,
-  };
+  await supabase.auth.signOut();
+  return { data: null, error: 'Your account profile could not be verified. Contact an administrator.' };
 }
 
 export async function logoutUser() {

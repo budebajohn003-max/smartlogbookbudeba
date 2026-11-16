@@ -17,19 +17,26 @@ totalsBox.className = 'report-totals';
 resultsBox.parentNode.insertBefore(totalsBox, resultsBox);
 
 function renderStats(stats, reportType) {
+  const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[character]);
   const statusRows = Object.entries(stats.byStatus)
-    .map(([status, count]) => `<div class="stat-row"><span>${status}</span><strong>${count}</strong></div>`)
+    .map(([status, count]) => `<div class="stat-row"><span>${escapeHtml(status)}</span><strong>${count}</strong></div>`)
     .join('');
 
   const monthlyRows = stats.monthlyData
-    .map(item => `<div class="stat-row"><span>${item.month}</span><strong>${item.count}</strong></div>`)
+    .map(item => `<div class="stat-row"><span>${escapeHtml(item.month)}</span><strong>${item.count}</strong></div>`)
     .join('');
 
   resultsBox.innerHTML = `
     <div class="results-grid">
       <div class="result-card">
         <h3>Report Type</h3>
-        <p>${reportType}</p>
+        <p>${escapeHtml(reportType)}</p>
       </div>
       <div class="result-card">
         <h3>Total Entries</h3>

@@ -23,7 +23,23 @@ try {
   setText('#entry-solution', entry.solution);
   document.getElementById('reviewer-comment').value = entry.reviewer_comment || '';
   if (entry.photo_url) {
-    document.getElementById('entry-photo').innerHTML = `<a href="${entry.photo_url}" target="_blank" rel="noopener"><img src="${entry.photo_url}" alt="Logbook evidence" class="max-h-72 rounded-lg"></a>`;
+    try {
+      const photoUrl = new URL(entry.photo_url, window.location.href);
+      if (photoUrl.protocol === 'https:') {
+        const link = document.createElement('a');
+        link.href = photoUrl.href;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        const image = document.createElement('img');
+        image.src = photoUrl.href;
+        image.alt = 'Logbook evidence';
+        image.className = 'max-h-72 rounded-lg';
+        link.append(image);
+        document.getElementById('entry-photo').replaceChildren(link);
+      }
+    } catch {
+      document.getElementById('entry-photo').textContent = 'Photo unavailable.';
+    }
   }
 } catch (error) {
   alert(`Unable to load logbook: ${error.message}`);
